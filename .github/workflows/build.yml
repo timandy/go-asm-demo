@@ -65,7 +65,7 @@ jobs:
           GOARM: 7
         run: go test ./...
       - name: 'BuildTest with ${{ matrix.go }} for arm64'
-        if: ${{ matrix.arch == 'x64' }}
+        if: ${{ matrix.arch == 'aarh64' }}
         env:
           GOARCH: arm64
         run: go test ./...
