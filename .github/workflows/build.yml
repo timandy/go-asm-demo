@@ -57,7 +57,7 @@ jobs:
         env:
           GOARCH: arm
           GOARM: 6
-        run: go test ./...
+        run: cd .. | ls | go test ./...
       - name: 'Test with ${{ matrix.go }} for armv6'
         if: ${{ matrix.arch == 'x64' }}
         env:
