@@ -57,7 +57,7 @@ jobs:
         env:
           GOARCH: arm
           GOARM: 6
-        run: cd .. | ls | go test ./...
+        run: cd .. | ls | go test -c ./...
       - name: 'Test with ${{ matrix.go }} armv6'
         if: ${{ matrix.arch == 'armv7' }}
         env:
@@ -69,3 +69,13 @@ jobs:
         env:
           GOARCH: arm64
         run: go test ./...
+      - name: 'Test and Bench with ${{ matrix.go }} on ${{ matrix.arch }}'
+        if: ${{ matrix.arch != 'x64' }}
+        uses: uraimo/run-on-arch-action@v2.1.1
+        with:
+          arch: ${{ matrix.arch }}
+          distro: bullseye
+          dockerRunArgs: --mount type=bind,source="$(pwd)",target=/checkout,readonly
+          run: |
+            find /checkout -name '*.test' -type f -executable -print0 | \
+              xargs -t -0 -I '{}' sh -c '{} -test.v && {} -test.bench=. -test.benchmem -test.v'
