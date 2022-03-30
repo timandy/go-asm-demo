@@ -13,7 +13,7 @@ func TestName(t *testing.T) {
 	fmt.Println("====GOARCH:", runtime.GOARCH)
 	for i := 0; i < 20; i++ {
 		gt := getgt()
-		assert.Equal(t, 51, gt.NumField())
+		assert.Greater(t, gt.NumField(), 20)
 		switch runtime.GOARCH {
 		case "amd64":
 			assert.Greater(t, getFieldOffset(gt, "goid"), 0)
