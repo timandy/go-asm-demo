@@ -15,6 +15,7 @@ jobs:
         arch:
           - armv6
           - armv7
+          - aarh64
           - 386
           - x64
         go:
