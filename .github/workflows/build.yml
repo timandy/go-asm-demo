@@ -12,12 +12,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch:
-          - armv6
-          - armv7
-          - aarh64
-          - 386
-          - x64
         go:
           - '1.13'
           - '1.14'
