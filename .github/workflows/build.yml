@@ -44,7 +44,7 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
-      - name: 'Test with ${{ matrix.go }}'
+      - name: 'Test with ${{ matrix.go }} amd64'
         if: ${{ matrix.arch == 'x64' }}
         run: go test ./...
       - name: 'Test with ${{ matrix.go }} 386'
@@ -53,18 +53,18 @@ jobs:
           GOARCH: 386
         run: go test ./...
       - name: 'Test with ${{ matrix.go }} arm6'
-        if: ${{ matrix.arch == 'x64' }}
+        if: ${{ matrix.arch == 'armv6' }}
         env:
           GOARCH: arm
           GOARM: 6
         run: cd .. | ls | go test ./...
-      - name: 'Test with ${{ matrix.go }} for armv6'
-        if: ${{ matrix.arch == 'x64' }}
+      - name: 'Test with ${{ matrix.go }} armv6'
+        if: ${{ matrix.arch == 'armv7' }}
         env:
           GOARCH: arm
           GOARM: 7
         run: go test ./...
-      - name: 'BuildTest with ${{ matrix.go }} for arm64'
+      - name: 'Test with ${{ matrix.go }} arm64'
         if: ${{ matrix.arch == 'aarh64' }}
         env:
           GOARCH: arm64
