@@ -25,51 +25,44 @@ jobs:
           - '1.16'
           - '1.17'
           - '1.18'
-        
-          # Race builds are pretty much busted on Go 1.4 and below on systems
-          # with newer C compilers. A number of fixes were backported to
-          # go1.4-bootstrap but not any released version. See
-          # https://github.com/golang/go/compare/go1.4.3...release-branch.go1.4.
-          #
-          # Cross-compilation became possible in go1.5 with the removal of C
-          # code from the compiler. See https://go.dev/doc/go1.5#c.
-          # Go binaries built with Go 1.8 and below are incompatible with QEMU
-          # user-level emulation. See
-          # https://github.com/golang/go/commit/2673f9e.
-          
-            
     steps:
       - uses: actions/checkout@v3
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
+
       - name: 'Test with ${{ matrix.go }} amd64'
         if: ${{ matrix.arch == 'x64' }}
         run: go test ./...
+
       - name: 'Test with ${{ matrix.go }} 386'
         if: ${{ matrix.arch == 'x64' }}
         env:
           GOARCH: 386
         run: go test ./...
-      - name: 'Test with ${{ matrix.go }} arm6'
+
+      - name: 'Build test with ${{ matrix.go }} arm6'
         if: ${{ matrix.arch == 'armv6' }}
         env:
           GOARCH: arm
           GOARM: 6
-        run: cd .. | ls | go test -c ./...
-      - name: 'Test with ${{ matrix.go }} armv6'
+        run: go test -c ./...
+
+      - name: 'Build test with ${{ matrix.go }} armv6'
         if: ${{ matrix.arch == 'armv7' }}
         env:
           GOARCH: arm
           GOARM: 7
-        run: go test ./...
-      - name: 'Test with ${{ matrix.go }} arm64'
+        run: go test -c ./...
+
+      - name: 'Build test with ${{ matrix.go }} arm64'
         if: ${{ matrix.arch == 'aarh64' }}
         env:
           GOARCH: arm64
-        run: go test ./...
-      - name: 'Test and Bench with ${{ matrix.go }} on ${{ matrix.arch }}'
+        run: go test -c  ./...
+
+      - name: 'Test with ${{ matrix.go }} on ${{ matrix.arch }}'
         if: ${{ matrix.arch != 'x64' }}
         uses: uraimo/run-on-arch-action@v2.1.1
         with:
@@ -78,4 +71,4 @@ jobs:
           dockerRunArgs: --mount type=bind,source="$(pwd)",target=/checkout,readonly
           run: |
             find /checkout -name '*.test' -type f -executable -print0 | \
-              xargs -t -0 -I '{}' sh -c '{} -test.v && {} -test.bench=. -test.benchmem -test.v'
+            xargs -t -0 -I '{}' sh -c '{} -test.v && {} -test.bench=. -test.benchmem -test.v'
