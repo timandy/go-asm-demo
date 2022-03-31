@@ -37,7 +37,7 @@ func TestName(t *testing.T) {
 		case "arm":
 			assert.Equal(t, numField, gt.NumField())
 			assert.Equal(t, offsetGoid, getFieldOffset(gt, "goid"))
-			assert.Equal(t, offsetPaniconfault, getFieldOffset(gt, "offsetPaniconfault"))
+			assert.Equal(t, offsetPaniconfault, getFieldOffset(gt, "paniconfault"))
 			assert.Equal(t, offsetLabels, getFieldOffset(gt, "labels"))
 
 		default:
