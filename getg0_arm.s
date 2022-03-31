@@ -1,12 +1,8 @@
 #include "textflag.h"
 #include "funcdata.h"
 
-TEXT  ·getg0(SB), NOSPLIT, $32-16
+TEXT  ·getg0(SB), NOSPLIT, $8-8
     NO_LOCAL_POINTERS
-    MOVW $0, ret_type+0(FP)
-    MOVW $0, ret_data+8(FP)
-    GO_RESULTS_INITIALIZED
-
     // get runtime.g type
     MOVW $type·runtime·g(SB), R8
 
@@ -15,5 +11,5 @@ TEXT  ·getg0(SB), NOSPLIT, $32-16
 
     // return interface{}
     MOVW R8, ret_type+0(FP)
-    MOVW R9, ret_data+8(FP)
+    MOVW R9, ret_data+4(FP)
     RET
