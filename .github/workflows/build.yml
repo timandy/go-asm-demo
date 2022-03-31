@@ -61,7 +61,7 @@ jobs:
           GOARCH: arm64
         run: go test -c
 
-      - name: 'BuildTestRace with ${{ matrix.go }} for aarch64'
+      - name: 'Init arm env with ${{ matrix.go }} aarch64'
         if: ${{ matrix.arch == 'aarch64' }}
         env:
           GOARCH: arm64
@@ -73,11 +73,8 @@ jobs:
           curl --location --output ${{ env.GOROOT }}/src/runtime/race/race_linux_arm64.syso \
             https://github.com/golang/go/raw/release-branch.go${{ matrix.go }}/src/runtime/race/race_linux_arm64.syso && \
           sudo apt install gcc-aarch64-linux-gnu && \
-          CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -race -o asm.race.test
-
-      - name: 'Delete race test'
-        if: ${{ matrix.arch == 'aarch64' }}
-        run: rm asm.race.test
+          CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -race -o asm.race.test && \
+          rm asm.race.test
 
       - name: 'Test with ${{ matrix.go }} on ${{ matrix.arch }}'
         if: ${{ matrix.arch != 'x64' }}
