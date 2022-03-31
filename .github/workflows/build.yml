@@ -16,7 +16,6 @@ jobs:
           - armv6
           - armv7
           - aarh64
-          - 386
           - x64
         go:
           - '1.13'
