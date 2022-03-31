@@ -11,6 +11,6 @@ TEXT  ·getg0(SB), NOSPLIT, $8-8
     MOVW $0, R9
 
     // return interface{}
-    MOVW R8, ret_lo+0(FP)
-    MOVW R9, ret_hi+4(FP)
+    MOVW R8, ret_type+0(FP)
+    MOVW R9, ret_data+4(FP)
     RET
