@@ -1,7 +1,7 @@
 #include "textflag.h"
 #include "funcdata.h"
 
-TEXT  ·Getgtype(SB), NOSPLIT, $0-0
+TEXT  ·getg0(SB), NOSPLIT, $0-0
     NO_LOCAL_POINTERS
     MOVQ $0, ret_type+0(FP)
     MOVQ $0, ret_data+8(FP)
