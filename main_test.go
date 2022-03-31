@@ -32,8 +32,11 @@ func TestName(t *testing.T) {
 		gt := getgt()
 		switch runtime.GOARCH {
 		case "amd64":
+			fallthrough
 		case "386":
+			fallthrough
 		case "arm64":
+			fallthrough
 		case "arm":
 			assert.Equal(t, numField, gt.NumField())
 			assert.Equal(t, offsetGoid, getFieldOffset(gt, "goid"))
