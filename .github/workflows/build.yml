@@ -62,7 +62,7 @@ jobs:
         run: go test -c
 
       - name: 'BuildTestRace with ${{ matrix.go }} for aarch64'
-        if: ${{ matrix.arch == 'aarch64' && !matrix.arm64_race_unsupported }}
+        if: ${{ matrix.arch != 'x64' }}
         env:
           GOARCH: arm64
           CGO_ENABLED: 1
@@ -75,7 +75,7 @@ jobs:
           CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -race -o asm.race.test
 
       - name: 'DeleteTestRace with $$ {{ matrix.go}} for aarch64'
-        if: ${{ matrix.arch == 'aarch64' && !matrix.arm64_race_unsupported && matrix.arm64_unsupported_vma_range }}
+        if: ${{ matrix.arch != 'x64' }}
         run: rm asm.race.test
 
       - name: 'Test with ${{ matrix.go }} on ${{ matrix.arch }}'
