@@ -41,21 +41,21 @@ jobs:
           GOARCH: 386
         run: go test
 
-      - name: 'Build test with ${{ matrix.go }} arm6'
+      - name: 'Build with ${{ matrix.go }} armv6'
         if: ${{ matrix.arch == 'armv6' }}
         env:
           GOARCH: arm
           GOARM: 6
         run: go test -c
 
-      - name: 'Build test with ${{ matrix.go }} armv6'
+      - name: 'Build with ${{ matrix.go }} armv7'
         if: ${{ matrix.arch == 'armv7' }}
         env:
           GOARCH: arm
           GOARM: 7
         run: go test -c
 
-      - name: 'Build test with ${{ matrix.go }} arm64'
+      - name: 'Build with ${{ matrix.go }} arm64'
         if: ${{ matrix.arch == 'aarch64' }}
         env:
           GOARCH: arm64
@@ -69,16 +69,17 @@ jobs:
         run: |
           # Non-host *.syso files are missing from the Go toolchains provided
           # by setup-go. See https://github.com/actions/setup-go/issues/181.
+          sudo apt-get update -y && \
           curl --location --output ${{ env.GOROOT }}/src/runtime/race/race_linux_arm64.syso \
             https://github.com/golang/go/raw/release-branch.go${{ matrix.go }}/src/runtime/race/race_linux_arm64.syso && \
           sudo apt install gcc-aarch64-linux-gnu && \
           CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -race -o asm.race.test
 
-      - name: 'DeleteTestRace with $$ {{ matrix.go}} for aarch64'
+      - name: 'Delete race test'
         if: ${{ matrix.arch == 'aarch64' }}
         run: rm asm.race.test
 
-      - name: 'Test and Bench with ${{ matrix.go }} on ${{ matrix.arch }}'
+      - name: 'Test with ${{ matrix.go }} on ${{ matrix.arch }}'
         if: ${{ matrix.arch != 'x64' }}
         uses: uraimo/run-on-arch-action@v2.1.1
         with:
