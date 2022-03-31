@@ -15,7 +15,7 @@ jobs:
         arch:
           - armv6
           - armv7
-          - aarh64
+          - aarch64
           - x64
         go:
           - '1.13'
@@ -56,13 +56,13 @@ jobs:
         run: go test -c
 
       - name: 'Build test with ${{ matrix.go }} arm64'
-        if: ${{ matrix.arch == 'aarh64' }}
+        if: ${{ matrix.arch == 'aarch64' }}
         env:
           GOARCH: arm64
         run: go test -c
 
       - name: 'BuildTestRace with ${{ matrix.go }} for aarch64'
-        if: ${{ matrix.arch != 'x64' }}
+        if: ${{ matrix.arch == 'aarch64' }}
         env:
           GOARCH: arm64
           CGO_ENABLED: 1
@@ -75,10 +75,10 @@ jobs:
           CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -race -o asm.race.test
 
       - name: 'DeleteTestRace with $$ {{ matrix.go}} for aarch64'
-        if: ${{ matrix.arch != 'x64' }}
+        if: ${{ matrix.arch == 'aarch64' }}
         run: rm asm.race.test
 
-      - name: 'Test with ${{ matrix.go }} on ${{ matrix.arch }}'
+      - name: 'Test and Bench with ${{ matrix.go }} on ${{ matrix.arch }}'
         if: ${{ matrix.arch != 'x64' }}
         uses: uraimo/run-on-arch-action@v2.1.1
         with:
@@ -87,4 +87,4 @@ jobs:
           dockerRunArgs: --mount type=bind,source="$(pwd)",target=/checkout,readonly
           run: |
             find /checkout -name '*.test' -type f -executable -print0 | \
-            xargs -t -0 -I '{}' sh -c '{} -test.v && {} -test.bench=. -test.benchmem -test.v'
+              xargs -t -0 -I '{}' sh -c '{} -test.v && {} -test.bench=. -test.benchmem -test.v'
