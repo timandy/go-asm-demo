@@ -2,9 +2,7 @@
 #include "funcdata.h"
 
 TEXT  ·getg0(SB), NOSPLIT, $8-8
-    NO_LOCAL_POINTERS
-    MOVB $0, ret_lo+0(FP)
-    MOVD $0, ret_hi+4(FP)
+    NO_LOCAL_POINTER
 
     // get runtime.g type
     MOVW $type·runtime·g(SB), R0
