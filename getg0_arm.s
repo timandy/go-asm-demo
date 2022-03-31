@@ -3,8 +3,8 @@
 
 TEXT  ·getg0(SB), NOSPLIT, $8-8
     NO_LOCAL_POINTERS
-    MOVW $0, ret_lo+0(FP)
-    MOVW $0, ret_hi+4(FP)
+    MOVM $0, ret_lo+0(FP)
+    MOVM $0, ret_hi+4(FP)
 
     // get runtime.g type
     MOVW $type·runtime·g(SB), R0
