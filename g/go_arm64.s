@@ -6,8 +6,8 @@
 #include "textflag.h"
 
 TEXT ·getgp(SB), NOSPLIT, $0-4
-    MOVW    g, R8
-    MOVW    R8, ret+0(FP)
+    MOVD    g, R8
+    MOVD    R8, ret+0(FP)
     RET
 
 TEXT ·getg0(SB), NOSPLIT, $16-16
