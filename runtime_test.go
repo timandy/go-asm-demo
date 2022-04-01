@@ -24,7 +24,6 @@ func TestGetg0(t *testing.T) {
 	runTest(t, func() {
 		g0 := getg0()
 		stackguard0 := reflect.ValueOf(g0).FieldByName("stackguard0")
-		assert.True(t, stackguard0.CanUint())
 		assert.Greater(t, stackguard0.Uint(), uint64(0))
 	})
 }
