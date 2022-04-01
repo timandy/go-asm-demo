@@ -73,8 +73,8 @@ jobs:
           curl --location --output ${{ env.GOROOT }}/src/runtime/race/race_linux_arm64.syso \
             https://github.com/golang/go/raw/release-branch.go${{ matrix.go }}/src/runtime/race/race_linux_arm64.syso && \
           sudo apt install gcc-aarch64-linux-gnu && \
-          CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -race -o asm.race.test && \
-          rm asm.race.test
+          CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -o hacktest.test && \
+          rm hacktest.test
 
       - name: 'Test with ${{ matrix.go }} on ${{ matrix.arch }}'
         if: ${{ matrix.arch != 'x64' }}
