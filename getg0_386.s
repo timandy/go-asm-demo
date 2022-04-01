@@ -1,7 +1,7 @@
 #include "textflag.h"
 #include "funcdata.h"
 
-TEXT  ·getg0(SB), NOSPLIT, $8-8
+TEXT ·getg0(SB), NOSPLIT, $8-8
     NO_LOCAL_POINTERS
     MOVL $0, ret_type+0(FP)
     MOVL $0, ret_data+4(FP)
@@ -11,7 +11,7 @@ TEXT  ·getg0(SB), NOSPLIT, $8-8
     MOVL $type·runtime·g(SB), AX
 
     // get runtime·g0 variable
-    MOVL runtime·g0(SB), BX
+    MOVL $runtime·g0(SB), BX
 
     // return interface{}
     MOVL AX, ret_type+0(FP)

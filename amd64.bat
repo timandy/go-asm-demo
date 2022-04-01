@@ -1,4 +1,4 @@
 SET CGO_ENABLED=0
-SET GOOS=linux
+SET GOOS=windows
 SET GOARCH=amd64
-go build -gcflags="-N -l -S" .
+go test

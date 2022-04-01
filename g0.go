@@ -1,10 +1,11 @@
-package main
+package gohack
 
 import (
 	"reflect"
 	_ "unsafe"
 )
 
+// runtime.g0
 func getg0() interface{}
 
 //go:nosplit

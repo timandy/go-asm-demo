@@ -1,8 +1,8 @@
-
 SET CGO_ENABLED=0
 SET GOOS=linux
-SET GOARCH=arm64
+SET GOARCH=arm
+
 del result.s /S /Q
 pause
-go build -gcflags="-N -l" -o .\main.exe
-go tool objdump -S  .\main.exe > result.s
+go build -gcflags="-N -l" -o ./gohack.exe .
+go tool objdump -S ./gohack.exe > result.s
