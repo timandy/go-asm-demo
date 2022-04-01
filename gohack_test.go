@@ -2,19 +2,23 @@ package gohack
 
 import (
 	"github.com/stretchr/testify/assert"
+	"runtime"
 	"testing"
 	"unsafe"
 )
 
 func TestGoid(t *testing.T) {
 	runTest(t, func() {
-		assert.Equal(t, curGoroutineID(), getg().gid())
+		gp := getg()
+		runtime.GC()
+		assert.Equal(t, curGoroutineID(), gp.gid())
 	})
 }
 
 func TestPaniconfault(t *testing.T) {
 	runTest(t, func() {
 		gp := getg()
+		runtime.GC()
 		//read-1
 		assert.False(t, setPanicOnFault(false))
 		assert.False(t, gp.getPanicOnFault())
@@ -43,6 +47,7 @@ func TestProfLabel(t *testing.T) {
 		assert.NotEqual(t, ptr, null)
 		//
 		gp := getg()
+		runtime.GC()
 		//read-1
 		assert.Equal(t, null, getProfLabel())
 		assert.Equal(t, null, gp.getLabel())

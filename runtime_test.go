@@ -12,10 +12,12 @@ import (
 
 func TestGetgp(t *testing.T) {
 	gp1 := getgp()
+	runtime.GC()
 	assert.NotNil(t, gp1, "Fail to get g.")
 
 	runTest(t, func() {
 		gp2 := getgp()
+		runtime.GC()
 		assert.NotNil(t, gp2, "Fail to get g.")
 		assert.NotEqual(t, gp1, gp2, "Every living g must be different. [gp1:%p] [gp2:%p]", gp1, gp2)
 	})
@@ -24,6 +26,7 @@ func TestGetgp(t *testing.T) {
 func TestGetg0(t *testing.T) {
 	runTest(t, func() {
 		g0 := getg0()
+		runtime.GC()
 		stackguard0 := reflect.ValueOf(g0).FieldByName("stackguard0")
 		assert.Greater(t, stackguard0.Uint(), uint64(0))
 	})
@@ -35,6 +38,7 @@ func TestGetgt(t *testing.T) {
 	fmt.Println("*** GOARM:", os.Getenv("GOARM"), "***")
 	//
 	gt := getgt()
+	runtime.GC()
 	assert.Equal(t, "g", gt.Name())
 	//
 	numField := gt.NumField()
@@ -51,6 +55,7 @@ func TestGetgt(t *testing.T) {
 	//
 	runTest(t, func() {
 		tt := getgt()
+		runtime.GC()
 		switch runtime.GOARCH {
 		case "amd64":
 			fallthrough
