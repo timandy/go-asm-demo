@@ -59,10 +59,10 @@ func (gp *g) setPanicOnFault(new bool) (old bool) {
 	return
 }
 
-func (gp *g) getLabel() unsafe.Pointer {
+func (gp *g) getLabels() unsafe.Pointer {
 	return *gp.labels
 }
 
-func (gp *g) setLabel(label unsafe.Pointer) {
-	*gp.labels = label
+func (gp *g) setLabels(labels unsafe.Pointer) {
+	*gp.labels = labels
 }

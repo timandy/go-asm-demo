@@ -50,22 +50,22 @@ func TestProfLabel(t *testing.T) {
 		runtime.GC()
 		//read-1
 		assert.Equal(t, null, getProfLabel())
-		assert.Equal(t, null, gp.getLabel())
+		assert.Equal(t, null, gp.getLabels())
 		//read-2
 		setProfLabel(ptr)
-		assert.Equal(t, ptr, gp.getLabel())
+		assert.Equal(t, ptr, gp.getLabels())
 		//write-1
-		gp.setLabel(nil)
+		gp.setLabels(nil)
 		assert.Equal(t, null, getProfLabel())
 		//write-2
-		gp.setLabel(ptr)
+		gp.setLabels(ptr)
 		assert.Equal(t, ptr, getProfLabel())
 		//write-read-1
-		gp.setLabel(nil)
-		assert.Equal(t, null, gp.getLabel())
+		gp.setLabels(nil)
+		assert.Equal(t, null, gp.getLabels())
 		//write-read-2
-		gp.setLabel(ptr)
-		assert.Equal(t, ptr, gp.getLabel())
+		gp.setLabels(ptr)
+		assert.Equal(t, ptr, gp.getLabels())
 	})
 }
 
