@@ -25,7 +25,9 @@ jobs:
           - '1.17'
           - '1.18'
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout scm
+        uses: actions/checkout@v3
+
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
@@ -46,20 +48,20 @@ jobs:
         env:
           GOARCH: arm
           GOARM: 6
-        run: go test -c -v ./...
+        run: go test -c -v ./
 
       - name: 'Build with ${{ matrix.go }} armv7'
         if: ${{ matrix.arch == 'armv7' }}
         env:
           GOARCH: arm
           GOARM: 7
-        run: go test -c -v ./...
+        run: go test -c -v ./
 
       - name: 'Build with ${{ matrix.go }} arm64'
         if: ${{ matrix.arch == 'aarch64' }}
         env:
           GOARCH: arm64
-        run: go test -c -v ./...
+        run: go test -c -v ./
 
       - name: 'Init arm env with ${{ matrix.go }} aarch64'
         if: ${{ matrix.arch == 'aarch64' }}
