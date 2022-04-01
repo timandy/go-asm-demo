@@ -31,12 +31,12 @@ func offset(t reflect.Type, f string) uintptr {
 	panic("No such field '" + f + "' of type '" + t.Name() + "'.")
 }
 
-func getg() *g {
+func getg() g {
 	gp := getgp()
 	if gp == nil {
 		panic("Failed to get gp from runtime natively.")
 	}
-	return &g{
+	return g{
 		goid:         *(*int64)(add(gp, offsetGoid)),
 		paniconfault: (*bool)(add(gp, offsetPaniconfault)),
 		labels:       (*unsafe.Pointer)(add(gp, offsetLabels)),
@@ -49,20 +49,20 @@ type g struct {
 	labels       *unsafe.Pointer
 }
 
-func (gp *g) getPanicOnFault() bool {
+func (gp g) getPanicOnFault() bool {
 	return *gp.paniconfault
 }
 
-func (gp *g) setPanicOnFault(new bool) (old bool) {
+func (gp g) setPanicOnFault(new bool) (old bool) {
 	old = *gp.paniconfault
 	*gp.paniconfault = new
 	return
 }
 
-func (gp *g) getLabels() unsafe.Pointer {
+func (gp g) getLabels() unsafe.Pointer {
 	return *gp.labels
 }
 
-func (gp *g) setLabels(labels unsafe.Pointer) {
+func (gp g) setLabels(labels unsafe.Pointer) {
 	*gp.labels = labels
 }
