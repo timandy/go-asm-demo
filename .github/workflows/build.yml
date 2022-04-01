@@ -87,4 +87,4 @@ jobs:
           dockerRunArgs: --mount type=bind,source="$(pwd)",target=/checkout,readonly
           run: |
             find /checkout -name '*.test' -type f -executable -print0 | \
-              xargs -t -0 -I '{}' sh -c '{} -test.v && {} -test.v'
+              xargs -t -0 -I '{}' sh -c '{} -test.v'
