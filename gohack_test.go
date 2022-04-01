@@ -69,6 +69,20 @@ func TestProfLabel(t *testing.T) {
 	})
 }
 
+func BenchmarkGohack(b *testing.B) {
+	_ = getg()
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		gp := getg()
+		_ = gp.goid
+		_ = gp.getLabels()
+		_ = gp.getPanicOnFault()
+		gp.setLabels(nil)
+		gp.setPanicOnFault(false)
+	}
+}
+
 // curGoroutineID parse the current g's goid from caller stack.
 //go:linkname curGoroutineID net/http.http2curGoroutineID
 func curGoroutineID() int64
