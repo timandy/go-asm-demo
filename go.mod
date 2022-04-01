@@ -1,4 +1,4 @@
-module gohack
+module github.com/timandy/gohack
 
 go 1.18
 
