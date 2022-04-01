@@ -3,6 +3,7 @@ package gohack
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"os"
 	"reflect"
 	"runtime"
 	"sync"
@@ -31,6 +32,7 @@ func TestGetg0(t *testing.T) {
 func TestGetgt(t *testing.T) {
 	fmt.Println("*** GOOS:", runtime.GOOS, "***")
 	fmt.Println("*** GOARCH:", runtime.GOARCH, "***")
+	fmt.Println("*** GOARM:", os.Getenv("GOARM"), "***")
 	//
 	gt := getgt()
 	assert.Equal(t, "g", gt.Name())
