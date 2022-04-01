@@ -37,6 +37,7 @@ func getg() *g {
 		panic("Failed to get gp from runtime natively.")
 	}
 	return &g{
+		head:         gp,
 		goid:         (*int64)(add(gp, offsetGoid)),
 		paniconfault: (*bool)(add(gp, offsetPaniconfault)),
 		labels:       (*unsafe.Pointer)(add(gp, offsetLabels)),
@@ -44,13 +45,15 @@ func getg() *g {
 }
 
 type g struct {
+	head         unsafe.Pointer
 	goid         *int64
 	paniconfault *bool
 	labels       *unsafe.Pointer
 }
 
 func (gp *g) gid() int64 {
-	return *gp.goid
+	//return *gp.goid
+	return *(*int64)(add(gp.head, offsetGoid))
 }
 
 func (gp *g) getPanicOnFault() bool {
