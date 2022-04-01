@@ -8,7 +8,7 @@ import (
 
 func TestGoid(t *testing.T) {
 	runTest(t, func() {
-		assert.Equal(t, curGoroutineID(), getg().goid)
+		assert.Equal(t, curGoroutineID(), getg().gid())
 	})
 }
 

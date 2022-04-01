@@ -28,25 +28,29 @@ func offset(t reflect.Type, f string) uintptr {
 	if found {
 		return field.Offset
 	}
-	panic("The type '" + t.Name() + "' doesn't have a field of a specified name '" + f + "'.")
+	panic("No such field '" + f + "' of type '" + t.Name() + "'.")
 }
 
 func getg() *g {
 	gp := getgp()
 	if gp == nil {
-		panic("Unable to get goid from runtime natively!!!")
+		panic("Failed to get gp from runtime natively.")
 	}
 	return &g{
-		goid:         *(*int64)(add(gp, offsetGoid)),
+		goid:         (*int64)(add(gp, offsetGoid)),
 		paniconfault: (*bool)(add(gp, offsetPaniconfault)),
 		labels:       (*unsafe.Pointer)(add(gp, offsetLabels)),
 	}
 }
 
 type g struct {
-	goid         int64
+	goid         *int64
 	paniconfault *bool
 	labels       *unsafe.Pointer
+}
+
+func (gp *g) gid() int64 {
+	return *gp.goid
 }
 
 func (gp *g) getPanicOnFault() bool {
