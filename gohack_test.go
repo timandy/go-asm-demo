@@ -11,7 +11,7 @@ func TestGoid(t *testing.T) {
 	runTest(t, func() {
 		gp := getg()
 		runtime.GC()
-		assert.Equal(t, curGoroutineID(), gp.gid())
+		assert.Equal(t, curGoroutineID(), gp.goid)
 	})
 }
 
