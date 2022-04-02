@@ -13,7 +13,7 @@ TEXT ·getgp(SB), NOSPLIT, $0-4
 TEXT ·getg0(SB), NOSPLIT, $0-8
     NO_LOCAL_POINTERS
     MOVW    R8, ret_type+0(FP)
-    MOVW    R8, ret_data+4(FP)
+    MOVW    R9, ret_data+4(FP)
     GO_RESULTS_INITIALIZED
     //get runtime.g type
     MOVW    $type·runtime·g(SB), R8
