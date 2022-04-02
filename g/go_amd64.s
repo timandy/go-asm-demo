@@ -17,11 +17,11 @@ TEXT ·getg0(SB), NOSPLIT, $0-16
     MOVQ    $0, ret_type+0(FP)
     MOVQ    $0, ret_data+8(FP)
     GO_RESULTS_INITIALIZED
-    // get runtime.g type
+    //get runtime.g type
     MOVQ    $type·runtime·g(SB), AX
-    // get runtime·g0 variable
+    //get runtime·g0 variable
     MOVQ    $runtime·g0(SB), BX
-    // return interface{}
+    //return interface{}
     MOVQ    AX, ret_type+0(FP)
     MOVQ    BX, ret_data+8(FP)
     RET
