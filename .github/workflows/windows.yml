@@ -1,20 +1,22 @@
 on:
   push:
     branches:
-      - master
+      - main
+      - release/**
+      - feature/**
   pull_request:
     branches:
-      - master
+      - main
+      - release/**
 
 jobs:
   build:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
         arch: [ armv6, armv7, aarch64, x64 ]
         go: [ 1.13, 1.14, 1.15, 1.16, 1.17, 1.18 ]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
       - name: Checkout scm
         uses: actions/checkout@v3
