@@ -8,22 +8,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        arch:
-          - armv6
-          - armv7
-          - aarch64
-          - x64
-        go:
-          - '1.13'
-          - '1.14'
-          - '1.15'
-          - '1.16'
-          - '1.17'
-          - '1.18'
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        arch: [ armv6, armv7, aarch64, x64 ]
+        go: [ 1.13, 1.14, 1.15, 1.16, 1.17, 1.18 ]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout scm
         uses: actions/checkout@v3
