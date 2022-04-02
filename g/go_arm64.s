@@ -5,12 +5,12 @@
 #include "go_asm.h"
 #include "textflag.h"
 
-TEXT ·getgp(SB), NOSPLIT, $0-4
+TEXT ·getgp(SB), NOSPLIT, $0-8
     MOVD    g, R8
     MOVD    R8, ret+0(FP)
     RET
 
-TEXT ·getg0(SB), NOSPLIT, $16-16
+TEXT ·getg0(SB), NOSPLIT, $0-16
     NO_LOCAL_POINTERS
     MOVD    $0, ret_type+0(FP)
     MOVD    $0, ret_data+8(FP)

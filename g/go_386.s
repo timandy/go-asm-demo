@@ -12,7 +12,7 @@ TEXT ·getgp(SB), NOSPLIT, $0-4
     MOVL    AX, ret+0(FP)
     RET
 
-TEXT ·getg0(SB), NOSPLIT, $8-8
+TEXT ·getg0(SB), NOSPLIT, $0-8
     NO_LOCAL_POINTERS
     MOVL    $0, ret_type+0(FP)
     MOVL    $0, ret_data+4(FP)
