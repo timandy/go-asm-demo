@@ -35,13 +35,13 @@ jobs:
 
       - name: 'Test with ${{ matrix.go }} amd64'
         if: ${{ matrix.arch == 'x64' }}
-        run: go test -v ./...
+        run: go test -v ./
 
       - name: 'Test with ${{ matrix.go }} 386'
         if: ${{ matrix.arch == 'x64' }}
         env:
           GOARCH: 386
-        run: go test -v ./...
+        run: go test -v ./
 
       - name: 'Build with ${{ matrix.go }} armv6'
         if: ${{ matrix.arch == 'armv6' }}
