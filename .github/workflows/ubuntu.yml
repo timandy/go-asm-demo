@@ -11,12 +11,29 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        arch: [ armv6, armv7, aarch64, x64 ]
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        arch: [ 386, x64, armv6, armv7, arm64 ]
         go: [ 1.13, 1.14, 1.15, 1.16, 1.17, 1.18 ]
+        exclude:
+          - os: macos-latest
+            arch: 386
+          - os: macos-latest
+            arch: armv6
+          - os: macos-latest
+            arch: armv7
+          - os: macos-latest
+            arch: arm64
+          - os: windows-latest
+            arch: armv6
+          - os: windows-latest
+            arch: armv7
+          - os: windows-latest
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+
     steps:
       - name: Checkout scm
         uses: actions/checkout@v3
@@ -26,38 +43,40 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
-      - name: 'Test with ${{ matrix.go }} amd64'
-        if: ${{ matrix.arch == 'x64' }}
-        run: go test -v ./
-
-      - name: 'Test with ${{ matrix.go }} 386'
-        if: ${{ matrix.arch == 'x64' }}
+      - name: 'Test with 386'
+        if: ${{ matrix.arch == '386' }}
         env:
           GOARCH: 386
-        run: go test -v ./
+        run: go test -race -v
 
-      - name: 'Build with ${{ matrix.go }} armv6'
+      - name: 'Test with x64'
+        if: ${{ matrix.arch == 'x64' }}
+        env:
+          GOARCH: x64
+        run: go test -race -v
+
+      - name: 'Build with armv6'
         if: ${{ matrix.arch == 'armv6' }}
         env:
           GOARCH: arm
           GOARM: 6
-        run: go test -c -v ./
+        run: go test -c -v
 
-      - name: 'Build with ${{ matrix.go }} armv7'
+      - name: 'Build with armv7'
         if: ${{ matrix.arch == 'armv7' }}
         env:
           GOARCH: arm
           GOARM: 7
-        run: go test -c -v ./
+        run: go test -c -v
 
-      - name: 'Build with ${{ matrix.go }} arm64'
-        if: ${{ matrix.arch == 'aarch64' }}
+      - name: 'Build with arm64'
+        if: ${{ matrix.arch == 'arm64' }}
         env:
           GOARCH: arm64
-        run: go test -c -v ./
+        run: go test -c -v
 
-      - name: 'Init arm env with ${{ matrix.go }} aarch64'
-        if: ${{ matrix.arch == 'aarch64' }}
+      - name: 'Init arm64 environment'
+        if: ${{ matrix.arch == 'arm64' }}
         env:
           GOARCH: arm64
           CGO_ENABLED: 0
@@ -71,8 +90,8 @@ jobs:
           CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -o hacktest.test && \
           rm hacktest.test
 
-      - name: 'Test with ${{ matrix.go }} on ${{ matrix.arch }}'
-        if: ${{ matrix.arch != 'x64' }}
+      - name: 'Test with ${{ matrix.arch }}'
+        if: ${{ contains(matrix.arch, 'arm') }}
         uses: uraimo/run-on-arch-action@v2.1.1
         with:
           arch: ${{ matrix.arch }}
@@ -80,4 +99,4 @@ jobs:
           dockerRunArgs: --mount type=bind,source="$(pwd)",target=/checkout,readonly
           run: |
             find /checkout -name '*.test' -type f -executable -print0 | \
-              xargs -t -0 -I '{}' sh -c '{} -test.v'
+              xargs -t -0 -I '{}' sh -c '{} -test.race -test.v'
