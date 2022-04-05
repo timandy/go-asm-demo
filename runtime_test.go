@@ -55,13 +55,13 @@ func TestGetgt(t *testing.T) {
 		tt := getgt()
 		runtime.GC()
 		switch runtime.GOARCH {
-		case "amd64":
-			fallthrough
 		case "386":
 			fallthrough
-		case "arm64":
+		case "amd64":
 			fallthrough
 		case "arm":
+			fallthrough
+		case "arm64":
 			assert.Equal(t, numField, tt.NumField())
 			assert.Equal(t, offsetGoid, offset(tt, "goid"))
 			assert.Equal(t, offsetPaniconfault, offset(tt, "paniconfault"))
