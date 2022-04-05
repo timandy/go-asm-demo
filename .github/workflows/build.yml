@@ -47,7 +47,7 @@ jobs:
         if: ${{ matrix.arch == '386' }}
         env:
           GOARCH: 386
-        run: go test -race -v
+        run: go test -v
 
       - name: 'Test with amd64'
         if: ${{ matrix.arch == 'amd64' }}
@@ -60,20 +60,20 @@ jobs:
         env:
           GOARCH: arm
           GOARM: 6
-        run: go test -c -v
+        run: go test -c -race -v
 
       - name: 'Build with armv7'
         if: ${{ matrix.arch == 'armv7' }}
         env:
           GOARCH: arm
           GOARM: 7
-        run: go test -c -v
+        run: go test -c -race -v
 
       - name: 'Build with arm64'
         if: ${{ matrix.arch == 'arm64' }}
         env:
           GOARCH: arm64
-        run: go test -c -v
+        run: go test -c -race -v
 
       - name: 'Init arm64 environment'
         if: ${{ matrix.arch == 'arm64' }}
@@ -99,4 +99,4 @@ jobs:
           dockerRunArgs: --mount type=bind,source="$(pwd)",target=/checkout,readonly
           run: |
             find /checkout -name '*.test' -type f -executable -print0 | \
-              xargs -t -0 -I '{}' sh -c '{} -test.race -test.v'
+              xargs -t -0 -I '{}' sh -c '{} -test.v'
