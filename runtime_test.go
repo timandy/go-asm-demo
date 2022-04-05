@@ -74,16 +74,13 @@ func TestGetgt(t *testing.T) {
 }
 
 func runTest(t *testing.T, fun func()) {
-	run := false
 	wg := sync.WaitGroup{}
 	wg.Add(100)
 	for i := 0; i < 100; i++ {
 		go func() {
 			fun()
-			run = true
 			wg.Done()
 		}()
 	}
 	wg.Wait()
-	assert.True(t, run)
 }
