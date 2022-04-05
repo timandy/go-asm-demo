@@ -56,7 +56,7 @@ func (gp g) getPanicOnFault() bool {
 func (gp g) setPanicOnFault(new bool) (old bool) {
 	old = *gp.paniconfault
 	*gp.paniconfault = new
-	return
+	return old
 }
 
 func (gp g) getLabels() unsafe.Pointer {
