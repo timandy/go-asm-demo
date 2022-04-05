@@ -60,14 +60,14 @@ jobs:
         env:
           GOARCH: arm
           GOARM: 6
-        run: go test -c -race -v
+        run: go test -c -v
 
       - name: 'Build with armv7'
         if: ${{ matrix.arch == 'armv7' }}
         env:
           GOARCH: arm
           GOARM: 7
-        run: go test -c -race -v
+        run: go test -c -v
 
       - name: 'Build with arm64'
         if: ${{ matrix.arch == 'arm64' }}
