@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
-        arch: [ 386, x64, armv6, armv7, arm64 ]
+        arch: [ 386, amd64, armv6, armv7, arm64 ]
         go: [ 1.13, 1.14, 1.15, 1.16, 1.17, 1.18 ]
         exclude:
           - os: macos-latest
@@ -49,10 +49,10 @@ jobs:
           GOARCH: 386
         run: go test -race -v
 
-      - name: 'Test with x64'
-        if: ${{ matrix.arch == 'x64' }}
+      - name: 'Test with amd64'
+        if: ${{ matrix.arch == 'amd64' }}
         env:
-          GOARCH: x64
+          GOARCH: amd64
         run: go test -race -v
 
       - name: 'Build with armv6'
