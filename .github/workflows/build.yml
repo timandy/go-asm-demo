@@ -73,6 +73,7 @@ jobs:
         if: ${{ matrix.arch == 'arm64' }}
         env:
           GOARCH: arm64
+          CGO_ENABLED: 1
         run: go test -c -race -v
 
       - name: 'Init arm64 environment'
