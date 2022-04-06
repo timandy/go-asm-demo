@@ -1,4 +1,4 @@
-# routine
+# gohack
 
 [![Build Status](https://github.com/timandy/gohack/actions/workflows/build.yml/badge.svg)](https://github.com/timandy/gohack/actions)
 [![Codecov](https://codecov.io/gh/timandy/gohack/branch/main/graph/badge.svg)](https://codecov.io/gh/timandy/gohack)
