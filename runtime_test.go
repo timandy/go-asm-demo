@@ -79,7 +79,7 @@ func runTest(t *testing.T, fun func()) {
 	wg.Add(100)
 	for i := 0; i < 100; i++ {
 		go func() {
-			time.Sleep(10 * time.Millisecond) //make sure g is not reused
+			time.Sleep(10 * time.Millisecond) //make sure runtime.g is not reused
 			fun()
 			wg.Done()
 		}()
