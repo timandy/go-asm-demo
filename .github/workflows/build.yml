@@ -95,7 +95,7 @@ jobs:
 
       - name: Codecov
         if: ${{ !contains(matrix.arch, 'arm') }}
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           name: Codecov on ${{ matrix.os }}/${{ matrix.arch }} go${{ matrix.go }}
           fail_ci_if_error: false
