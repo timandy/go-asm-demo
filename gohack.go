@@ -1,6 +1,7 @@
 package gohack
 
 import (
+	"fmt"
 	"reflect"
 	"unsafe"
 )
@@ -28,7 +29,7 @@ func offset(t reflect.Type, f string) uintptr {
 	if found {
 		return field.Offset
 	}
-	panic("No such field '" + f + "' of type '" + t.Name() + "'.")
+	panic(fmt.Sprintf("No such field '%v' of struct '%v.%v'.", f, t.PkgPath(), t.Name()))
 }
 
 func getg() g {

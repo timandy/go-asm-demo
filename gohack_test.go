@@ -2,6 +2,7 @@ package gohack
 
 import (
 	"github.com/stretchr/testify/assert"
+	"reflect"
 	"runtime"
 	"testing"
 	"unsafe"
@@ -69,6 +70,17 @@ func TestProfLabel(t *testing.T) {
 	})
 }
 
+func TestOffset(t *testing.T) {
+	assert.Panics(t, func() {
+		gt := reflect.TypeOf(0)
+		offset(gt, "hello")
+	})
+	assert.PanicsWithValue(t, "No such field 'hello' of struct 'runtime.g'.", func() {
+		gt := getgt()
+		offset(gt, "hello")
+	})
+}
+
 func BenchmarkGohack(b *testing.B) {
 	_ = getg()
 	b.ReportAllocs()
@@ -87,6 +99,7 @@ func BenchmarkGohack(b *testing.B) {
 //go:linkname curGoroutineID net/http.http2curGoroutineID
 func curGoroutineID() int64
 
+// setPanicOnFault controls the runtime's behavior when a program faults at an unexpected (non-nil) address.
 //go:linkname setPanicOnFault runtime/debug.setPanicOnFault
 func setPanicOnFault(new bool) (old bool)
 
