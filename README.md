@@ -27,7 +27,7 @@ The goal of `gohack` is to provide an idea and source code implementation.
 
 If you want to use the source code, please [Fork](https://github.com/timandy/gohack/fork) and [Star](https://github.com/timandy/gohack).
 
-[routine](https://github.com/timandy/gohack/fork) is a `TLS` library, powered by `gohack`.
+[routine](https://github.com/timandy/gohack/fork) is a `tls` library, powered by `gohack`.
 
 # *License*
 
