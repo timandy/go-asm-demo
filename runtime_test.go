@@ -1,4 +1,4 @@
-package gohack
+package routine
 
 import (
 	"fmt"
@@ -6,20 +6,20 @@ import (
 	"reflect"
 	"runtime"
 	"sync"
+	"sync/atomic"
 	"testing"
-	"time"
 )
 
 func TestGetgp(t *testing.T) {
-	gp1 := getgp()
+	gp0 := getgp()
 	runtime.GC()
-	assert.NotNil(t, gp1, "Fail to get gp.")
-
+	assert.NotNil(t, gp0)
+	//
 	runTest(t, func() {
-		gp2 := getgp()
+		gp := getgp()
 		runtime.GC()
-		assert.NotNil(t, gp2, "Fail to get gp.")
-		assert.NotEqual(t, gp1, gp2, "Every living g must be different. [gp1:%p] [gp2:%p]", gp1, gp2)
+		assert.NotNil(t, gp)
+		assert.NotEqual(t, gp0, gp)
 	})
 }
 
@@ -75,14 +75,18 @@ func TestGetgt(t *testing.T) {
 }
 
 func runTest(t *testing.T, fun func()) {
-	wg := sync.WaitGroup{}
-	wg.Add(100)
-	for i := 0; i < 100; i++ {
+	var count int32
+	wg := &sync.WaitGroup{}
+	wg.Add(10)
+	for i := 0; i < 10; i++ {
 		go func() {
-			time.Sleep(10 * time.Millisecond) //make sure runtime.g is not reused
-			fun()
+			for j := 0; j < 10; j++ {
+				fun()
+			}
+			atomic.AddInt32(&count, 1)
 			wg.Done()
 		}()
 	}
 	wg.Wait()
+	assert.Equal(t, 10, int(count))
 }

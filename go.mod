@@ -1,4 +1,4 @@
-module github.com/timandy/gohack
+module github.com/timandy/routine
 
 go 1.18
 

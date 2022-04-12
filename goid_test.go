@@ -1,4 +1,4 @@
-package gohack
+package routine
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -8,7 +8,23 @@ import (
 	"unsafe"
 )
 
-func TestGoid(t *testing.T) {
+// curGoroutineID parse the current g's goid from caller stack.
+//go:linkname curGoroutineID net/http.http2curGoroutineID
+func curGoroutineID() int64
+
+// setPanicOnFault controls the runtime's behavior when a program faults at an unexpected (non-nil) address.
+//go:linkname setPanicOnFault runtime/debug.setPanicOnFault
+func setPanicOnFault(new bool) (old bool)
+
+// getProfLabel get current g's labels which will be inherited by new goroutine.
+//go:linkname getProfLabel runtime/pprof.runtime_getProfLabel
+func getProfLabel() unsafe.Pointer
+
+// setProfLabel set current g's labels which will be inherited by new goroutine.
+//go:linkname setProfLabel runtime/pprof.runtime_setProfLabel
+func setProfLabel(labels unsafe.Pointer)
+
+func TestGoidNative(t *testing.T) {
 	runTest(t, func() {
 		gp := getg()
 		runtime.GC()
@@ -38,6 +54,8 @@ func TestPaniconfault(t *testing.T) {
 		//write-read-2
 		gp.setPanicOnFault(true)
 		assert.True(t, gp.getPanicOnFault())
+		//restore
+		gp.setPanicOnFault(false)
 	})
 }
 
@@ -67,20 +85,27 @@ func TestProfLabel(t *testing.T) {
 		//write-read-2
 		gp.setLabels(ptr)
 		assert.Equal(t, ptr, gp.getLabels())
+		//restore
+		gp.setLabels(null)
 	})
 }
 
 func TestOffset(t *testing.T) {
-	assert.Panics(t, func() {
-		gt := reflect.TypeOf(0)
-		offset(gt, "hello")
-	})
-	assert.PanicsWithValue(t, "No such field 'hello' of struct 'runtime.g'.", func() {
-		gt := getgt()
-		offset(gt, "hello")
+	runTest(t, func() {
+		assert.Panics(t, func() {
+			gt := reflect.TypeOf(0)
+			offset(gt, "hello")
+		})
+		assert.PanicsWithValue(t, "No such field 'hello' of struct 'runtime.g'.", func() {
+			gt := getgt()
+			offset(gt, "hello")
+		})
 	})
 }
 
+//===
+
+// BenchmarkGohack-8                              186637413                5.734 ns/op            0 B/op          0 allocs/op
 func BenchmarkGohack(b *testing.B) {
 	_ = getg()
 	b.ReportAllocs()
@@ -94,19 +119,3 @@ func BenchmarkGohack(b *testing.B) {
 		gp.setPanicOnFault(false)
 	}
 }
-
-// curGoroutineID parse the current g's goid from caller stack.
-//go:linkname curGoroutineID net/http.http2curGoroutineID
-func curGoroutineID() int64
-
-// setPanicOnFault controls the runtime's behavior when a program faults at an unexpected (non-nil) address.
-//go:linkname setPanicOnFault runtime/debug.setPanicOnFault
-func setPanicOnFault(new bool) (old bool)
-
-// getProfLabel get current g's labels which will be inherited by new goroutine.
-//go:linkname getProfLabel runtime/pprof.runtime_getProfLabel
-func getProfLabel() unsafe.Pointer
-
-// setProfLabel set current g's labels which will be inherited by new goroutine.
-//go:linkname setProfLabel runtime/pprof.runtime_setProfLabel
-func setProfLabel(labels unsafe.Pointer)
