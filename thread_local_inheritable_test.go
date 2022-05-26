@@ -7,16 +7,16 @@ import (
 	"testing"
 )
 
-func TestInheritableThreadLocal_Id(t *testing.T) {
+func TestInheritableThreadLocal_Index(t *testing.T) {
 	tls := NewInheritableThreadLocal()
-	assert.GreaterOrEqual(t, tls.Id(), 0)
+	assert.GreaterOrEqual(t, tls.(*inheritableThreadLocal).index, 0)
 	tls2 := NewInheritableThreadLocalWithInitial(func() Any {
 		return "Hello"
 	})
-	assert.Greater(t, tls2.Id(), tls.Id())
+	assert.Greater(t, tls2.(*inheritableThreadLocal).index, tls.(*inheritableThreadLocal).index)
 }
 
-func TestInheritableThreadLocal_NextId(t *testing.T) {
+func TestInheritableThreadLocal_NextIndex(t *testing.T) {
 	backup := inheritableThreadLocalIndex
 	defer func() {
 		inheritableThreadLocalIndex = backup
@@ -24,11 +24,12 @@ func TestInheritableThreadLocal_NextId(t *testing.T) {
 	//
 	inheritableThreadLocalIndex = math.MaxInt32
 	assert.Panics(t, func() {
-		nextInheritableThreadLocalId()
+		nextInheritableThreadLocalIndex()
 	})
+	assert.Equal(t, math.MaxInt32, int(inheritableThreadLocalIndex))
 }
 
-func TestInheritableThreadLocal(t *testing.T) {
+func TestInheritableThreadLocal_Common(t *testing.T) {
 	tls := NewInheritableThreadLocal()
 	tls2 := NewInheritableThreadLocal()
 	tls.Remove()
@@ -74,7 +75,7 @@ func TestInheritableThreadLocal(t *testing.T) {
 	assert.Equal(t, "!", tls2.Get())
 }
 
-func TestInheritableThreadLocalMixed(t *testing.T) {
+func TestInheritableThreadLocal_Mixed(t *testing.T) {
 	tls := NewInheritableThreadLocal()
 	tls2 := NewInheritableThreadLocalWithInitial(func() Any {
 		return "Hello"
@@ -120,7 +121,7 @@ func TestInheritableThreadLocalMixed(t *testing.T) {
 	assert.Equal(t, "!", tls2.Get())
 }
 
-func TestInheritableThreadLocalWithInitial(t *testing.T) {
+func TestInheritableThreadLocal_WithInitial(t *testing.T) {
 	src := &person{Id: 1, Name: "Tim"}
 	tls := NewInheritableThreadLocalWithInitial(nil)
 	tls2 := NewInheritableThreadLocalWithInitial(func() Any {
@@ -173,7 +174,7 @@ func TestInheritableThreadLocalWithInitial(t *testing.T) {
 	assert.Equal(t, *src, p6)
 }
 
-func TestInheritableThreadLocalCrossCoroutine(t *testing.T) {
+func TestInheritableThreadLocal_CrossCoroutine(t *testing.T) {
 	tls := NewInheritableThreadLocal()
 	tls.Set("Hello")
 	assert.Equal(t, "Hello", tls.Get().(string))
@@ -198,7 +199,7 @@ func TestInheritableThreadLocalCrossCoroutine(t *testing.T) {
 	finishWait.Wait() //wait sub goroutine done
 }
 
-func TestInheritableThreadLocalCreateBatch(t *testing.T) {
+func TestInheritableThreadLocal_CreateBatch(t *testing.T) {
 	const count = 128
 	tlsList := make([]ThreadLocal, count)
 	for i := 0; i < count; i++ {
@@ -210,7 +211,7 @@ func TestInheritableThreadLocalCreateBatch(t *testing.T) {
 	}
 }
 
-func TestInheritableThreadLocalCopy(t *testing.T) {
+func TestInheritableThreadLocal_Copy(t *testing.T) {
 	tls := NewInheritableThreadLocalWithInitial(func() Any {
 		return &person{Id: 1, Name: "Tim"}
 	})
@@ -252,7 +253,7 @@ func TestInheritableThreadLocalCopy(t *testing.T) {
 	assert.Equal(t, "Andy", p6.Name)
 }
 
-func TestInheritableThreadLocalCloneable(t *testing.T) {
+func TestInheritableThreadLocal_Cloneable(t *testing.T) {
 	tls := NewInheritableThreadLocalWithInitial(func() Any {
 		return &personCloneable{Id: 1, Name: "Tim"}
 	})

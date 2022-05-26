@@ -1,8 +1,10 @@
 # routine
 
 [![Build Status](https://github.com/timandy/routine/actions/workflows/build.yml/badge.svg)](https://github.com/timandy/routine/actions)
-[![Codecov](https://codecov.io/gh/timandy/routine/branch/main/graph/badge.svg)](https://codecov.io/gh/timandy/routine)
-[![Go doc](https://img.shields.io/badge/go.dev-reference-brightgreen?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/timandy/routine)
+[![Codecov](https://codecov.io/gh/timandy/routine/branch/main/graph/badge.svg)](https://app.codecov.io/gh/timandy/routine)
+[![Documentation](https://pkg.go.dev/badge/github.com/timandy/routine.svg)](https://pkg.go.dev/github.com/timandy/routine)
+[![Release](https://img.shields.io/github/release/timandy/routine.svg)](https://github.com/timandy/routine/releases)
+[![License](https://img.shields.io/github/license/timandy/routine.svg)](https://github.com/timandy/routine/blob/main/LICENSE)
 
 > [中文版](README_zh.md)
 
@@ -119,9 +121,7 @@ This chapter introduces in detail all the interfaces encapsulated by the `routin
 
 Get the `goid` of the current `goroutine`.
 
-Under normal circumstances, `Goid()` first tries to obtain it directly through `go_tls`. This operation has extremely high performance and the time-consuming is usually only one-fifth of `rand.Int()`.
-
-If an error such as version incompatibility occurs, `Goid()` will try to downgrade, that is, parse it from the `runtime.Stack` information. At this time, the performance will drop sharply by about a thousand times, but it can ensure that the function is normally available.
+It can be obtained directly through assembly code under `386`, `amd64`, `armv6`, `armv7`, `arm64` architectures. This operation has extremely high performance and the time-consuming is usually only one-fifth of `rand.Int()`.
 
 ## `NewThreadLocal() ThreadLocal`
 
@@ -164,6 +164,19 @@ When the coroutine finishes executing and exits, `g.labels` will be set to `nil`
 The `thread` structure will be collected at the next `GC`.
 
 If the data stored in `thread` is not additionally referenced, these data will be collected together.
+
+# Support Grid
+
+|             | **`darwin`** | **`linux`** | **`windows`** |             |
+|------------:|:------------:|:-----------:|:-------------:|:------------|
+|   **`386`** |              |      ✅      |       ✅       | **`386`**   |
+| **`amd64`** |      ✅       |      ✅      |       ✅       | **`amd64`** |
+| **`armv6`** |              |      ✅      |               | **`armv6`** |
+| **`armv7`** |              |      ✅      |               | **`armv7`** |
+| **`arm64`** |              |      ✅      |               | **`arm64`** |
+|             | **`darwin`** | **`linux`** | **`windows`** |             |
+
+✅: Supported
 
 # Thanks
 

@@ -17,8 +17,8 @@ func TestCurrentThread(t *testing.T) {
 }
 
 func TestPProf(t *testing.T) {
-	const concurrency = 100
-	const loopTimes = 100
+	const concurrency = 10
+	const loopTimes = 10
 	tls := NewThreadLocal()
 	tls.Set("你好")
 	wg := &sync.WaitGroup{}
@@ -27,16 +27,18 @@ func TestPProf(t *testing.T) {
 		tmp := i
 		go func() {
 			for j := 0; j < loopTimes; j++ {
+				time.Sleep(100 * time.Millisecond)
 				tls.Set(tmp)
 				assert.Equal(t, tmp, tls.Get())
 				pprof.Do(context.Background(), pprof.Labels("key", "value"), func(ctx context.Context) {
+					assert.Nil(t, currentThread(false))
+					assert.Nil(t, tls.Get())
+					tls.Set("hi")
+					//
 					label, find := pprof.Label(ctx, "key")
 					assert.True(t, find)
 					assert.Equal(t, "value", label)
 					//
-					assert.Nil(t, currentThread(false))
-					assert.Nil(t, tls.Get())
-					tls.Set("hi")
 					assert.Equal(t, "hi", tls.Get())
 					//
 					label2, find2 := pprof.Label(ctx, "key")
@@ -85,12 +87,12 @@ func TestThreadGC(t *testing.T) {
 	allocWait.Wait() //wait alloc done
 	heapAlloc, numAlloc := getMemStats()
 	printMemStats("Alloc", heapAlloc, numAlloc)
-	assert.Greater(t, heapAlloc, heapInit+allocSize*2)
+	assert.Greater(t, heapAlloc, heapInit+allocSize*2*0.9)
 	assert.Greater(t, numAlloc, numInit)
 	//=========GC
 	gatherWait.Done() //gather ok, release sub thread
 	fea.Get()         //wait sub thread finish
-	time.Sleep(time.Millisecond * 500)
+	time.Sleep(500 * time.Millisecond)
 	heapGC, numGC := getMemStats()
 	printMemStats("AfterGC", heapGC, numGC)
 	gcWait.Done()

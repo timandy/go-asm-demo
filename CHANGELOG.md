@@ -1,5 +1,61 @@
 <!--变更日志-->
 
+# v1.0.8 Release notes
+
+### Changes
+
+- Rename `StackError` to `RuntimeError`.
+- Support error nesting for `RuntimeError`.
+- Beautify the error message of `RuntimeError`.
+- Remove `bytesconv.Bytes()` and `bytesconv.String()` methods.
+- Restore to the previous value if an overflow occurs when getting the index of `ThreadLocal`.
+
+# Links
+
+- Source code [https://github.com/timandy/routine/tree/v1.0.8](https://github.com/timandy/routine/tree/v1.0.8)
+
+---
+
+# v1.0.7 Release notes
+
+### Bugs
+
+- Fix released `thread` struct may be resurrected from invalid memory and cause fault error.
+
+### Changes
+
+- Modify the error message format of `StackError`.
+- Define function type `Supplier` for `threadLocal` and `inheritableThreadLocal` types.
+- Define function type `Runnable` and `Callable` for `Go(Runnable)`, `GoWait(Runnable)` and `GoWaitResult(Callable)` methods.
+
+# Links
+
+- Source code [https://github.com/timandy/routine/tree/v1.0.7](https://github.com/timandy/routine/tree/v1.0.7)
+
+---
+
+# v1.0.6 Release notes
+
+### Bugs
+
+- Fix fault error when pprof is running.
+
+### Features
+
+- Support more architectures `386`, `amd64`, `armv6`, `armv7`, `arm64`.
+
+### Changes
+
+- Read and write `coroutine` information through the `gohack` library, theoretically support unreleased `go` versions in the future.
+- When `runtime.g` cannot be obtained natively, `panic` directly instead of falling back to invoke `runtime.Stack()` method.
+- Remove api `ThreadLocal.Id()`.
+
+# Links
+
+- Source code [https://github.com/timandy/routine/tree/v1.0.6](https://github.com/timandy/routine/tree/v1.0.6)
+
+---
+
 # v1.0.5 Release notes
 
 ### Features
@@ -41,7 +97,7 @@
 
 ### Features
 
-- Support copy `Cloneable` objects to sub goroutine when create sub goroutines by `Go()`,`GoWait()` and `GoWaitResult()` methods.
+- Support copy `Cloneable` objects to sub goroutine when create sub goroutines by `Go()`, `GoWait()` and `GoWaitResult()` methods.
 - Add api `ForeachGoid(func(goid int64))` to run a func for each goid.
 
 ### Changes
@@ -107,7 +163,7 @@
 
 ### Features
 
-- Not force create `store` when invoke `Get()`,`Remove()`,`Clear()`,`BackupContext()` methods to reduce memory usage.
+- Not force create `store` when invoke `Get()`, `Remove()`, `Clear()`, `BackupContext()` methods to reduce memory usage.
 
 ### Changes
 

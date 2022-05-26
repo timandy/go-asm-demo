@@ -7,16 +7,16 @@ import (
 	"testing"
 )
 
-func TestThreadLocal_Id(t *testing.T) {
+func TestThreadLocal_Index(t *testing.T) {
 	tls := NewThreadLocal()
-	assert.GreaterOrEqual(t, tls.Id(), 0)
+	assert.GreaterOrEqual(t, tls.(*threadLocal).index, 0)
 	tls2 := NewThreadLocalWithInitial(func() Any {
 		return "Hello"
 	})
-	assert.Greater(t, tls2.Id(), tls.Id())
+	assert.Greater(t, tls2.(*threadLocal).index, tls.(*threadLocal).index)
 }
 
-func TestThreadLocal_NextId(t *testing.T) {
+func TestThreadLocal_NextIndex(t *testing.T) {
 	backup := threadLocalIndex
 	defer func() {
 		threadLocalIndex = backup
@@ -24,11 +24,12 @@ func TestThreadLocal_NextId(t *testing.T) {
 	//
 	threadLocalIndex = math.MaxInt32
 	assert.Panics(t, func() {
-		nextThreadLocalId()
+		nextThreadLocalIndex()
 	})
+	assert.Equal(t, math.MaxInt32, int(threadLocalIndex))
 }
 
-func TestThreadLocal(t *testing.T) {
+func TestThreadLocal_Common(t *testing.T) {
 	tls := NewThreadLocal()
 	tls2 := NewThreadLocal()
 	tls.Remove()
@@ -74,7 +75,7 @@ func TestThreadLocal(t *testing.T) {
 	assert.Equal(t, "!", tls2.Get())
 }
 
-func TestThreadLocalMixed(t *testing.T) {
+func TestThreadLocal_Mixed(t *testing.T) {
 	tls := NewThreadLocal()
 	tls2 := NewThreadLocalWithInitial(func() Any {
 		return "Hello"
@@ -120,7 +121,7 @@ func TestThreadLocalMixed(t *testing.T) {
 	assert.Equal(t, "!", tls2.Get())
 }
 
-func TestThreadLocalWithInitial(t *testing.T) {
+func TestThreadLocal_WithInitial(t *testing.T) {
 	src := &person{Id: 1, Name: "Tim"}
 	tls := NewThreadLocalWithInitial(nil)
 	tls2 := NewThreadLocalWithInitial(func() Any {
@@ -173,7 +174,7 @@ func TestThreadLocalWithInitial(t *testing.T) {
 	assert.Equal(t, *src, p6)
 }
 
-func TestThreadLocalCrossCoroutine(t *testing.T) {
+func TestThreadLocal_CrossCoroutine(t *testing.T) {
 	tls := NewThreadLocal()
 	tls.Set("Hello")
 	assert.Equal(t, "Hello", tls.Get().(string))
@@ -198,7 +199,7 @@ func TestThreadLocalCrossCoroutine(t *testing.T) {
 	finishWait.Wait() //wait sub goroutine done
 }
 
-func TestThreadLocalCreateBatch(t *testing.T) {
+func TestThreadLocal_CreateBatch(t *testing.T) {
 	const count = 128
 	tlsList := make([]ThreadLocal, count)
 	for i := 0; i < count; i++ {

@@ -23,7 +23,7 @@ func TestCreateInheritedMap(t *testing.T) {
 	wg.Wait()
 }
 
-func TestCreateInheritedMapNil(t *testing.T) {
+func TestCreateInheritedMap_Nil(t *testing.T) {
 	tls := NewInheritableThreadLocal()
 	tls.Set(nil)
 	srcValue := tls.Get()
@@ -32,19 +32,19 @@ func TestCreateInheritedMapNil(t *testing.T) {
 
 	mp := createInheritedMap()
 	assert.NotNil(t, mp)
-	getValue := mp.get(tls)
+	getValue := mp.get(tls.(*inheritableThreadLocal).index)
 	assert.Nil(t, getValue)
 	assert.True(t, getValue == nil)
 
 	mp2 := createInheritedMap()
 	assert.NotNil(t, mp2)
 	assert.NotSame(t, mp, mp2)
-	getValue2 := mp2.get(tls)
+	getValue2 := mp2.get(tls.(*inheritableThreadLocal).index)
 	assert.Nil(t, getValue2)
 	assert.True(t, getValue2 == nil)
 }
 
-func TestCreateInheritedMapValue(t *testing.T) {
+func TestCreateInheritedMap_Value(t *testing.T) {
 	tls := NewInheritableThreadLocal()
 	value := rand.Uint64()
 	tls.Set(value)
@@ -54,19 +54,19 @@ func TestCreateInheritedMapValue(t *testing.T) {
 
 	mp := createInheritedMap()
 	assert.NotNil(t, mp)
-	getValue := mp.get(tls)
+	getValue := mp.get(tls.(*inheritableThreadLocal).index)
 	assert.NotSame(t, &value, &getValue)
 	assert.Equal(t, value, getValue)
 
 	mp2 := createInheritedMap()
 	assert.NotNil(t, mp2)
 	assert.NotSame(t, mp, mp2)
-	getValue2 := mp2.get(tls)
+	getValue2 := mp2.get(tls.(*inheritableThreadLocal).index)
 	assert.NotSame(t, &value, &getValue2)
 	assert.Equal(t, value, getValue2)
 }
 
-func TestCreateInheritedMapStruct(t *testing.T) {
+func TestCreateInheritedMap_Struct(t *testing.T) {
 	tls := NewInheritableThreadLocal()
 	value := personCloneable{Id: 1, Name: "Hello"}
 	tls.Set(value)
@@ -76,19 +76,19 @@ func TestCreateInheritedMapStruct(t *testing.T) {
 
 	mp := createInheritedMap()
 	assert.NotNil(t, mp)
-	getValue := mp.get(tls)
+	getValue := mp.get(tls.(*inheritableThreadLocal).index)
 	assert.NotSame(t, &value, &getValue)
 	assert.Equal(t, value, getValue)
 
 	mp2 := createInheritedMap()
 	assert.NotNil(t, mp2)
 	assert.NotSame(t, mp, mp2)
-	getValue2 := mp2.get(tls)
+	getValue2 := mp2.get(tls.(*inheritableThreadLocal).index)
 	assert.NotSame(t, &value, &getValue2)
 	assert.Equal(t, value, getValue2)
 }
 
-func TestCreateInheritedMapPointer(t *testing.T) {
+func TestCreateInheritedMap_Pointer(t *testing.T) {
 	tls := NewInheritableThreadLocal()
 	value := &person{Id: 1, Name: "Hello"}
 	tls.Set(value)
@@ -98,19 +98,19 @@ func TestCreateInheritedMapPointer(t *testing.T) {
 
 	mp := createInheritedMap()
 	assert.NotNil(t, mp)
-	getValue := mp.get(tls).(*person)
+	getValue := mp.get(tls.(*inheritableThreadLocal).index).(*person)
 	assert.Same(t, value, getValue)
 	assert.Equal(t, *value, *getValue)
 
 	mp2 := createInheritedMap()
 	assert.NotNil(t, mp2)
 	assert.NotSame(t, mp, mp2)
-	getValue2 := mp2.get(tls).(*person)
+	getValue2 := mp2.get(tls.(*inheritableThreadLocal).index).(*person)
 	assert.Same(t, value, getValue2)
 	assert.Equal(t, *value, *getValue2)
 }
 
-func TestCreateInheritedMapCloneable(t *testing.T) {
+func TestCreateInheritedMap_Cloneable(t *testing.T) {
 	tls := NewInheritableThreadLocal()
 	value := &personCloneable{Id: 1, Name: "Hello"}
 	tls.Set(value)
@@ -120,14 +120,14 @@ func TestCreateInheritedMapCloneable(t *testing.T) {
 
 	mp := createInheritedMap()
 	assert.NotNil(t, mp)
-	getValue := mp.get(tls).(*personCloneable)
+	getValue := mp.get(tls.(*inheritableThreadLocal).index).(*personCloneable)
 	assert.NotSame(t, value, getValue)
 	assert.Equal(t, *value, *getValue)
 
 	mp2 := createInheritedMap()
 	assert.NotNil(t, mp2)
 	assert.NotSame(t, mp, mp2)
-	getValue2 := mp2.get(tls).(*personCloneable)
+	getValue2 := mp2.get(tls.(*inheritableThreadLocal).index).(*personCloneable)
 	assert.NotSame(t, value, getValue2)
 	assert.Equal(t, *value, *getValue2)
 }
