@@ -2,12 +2,13 @@ package routine
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"runtime"
 	"sync"
 	"sync/atomic"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetgp(t *testing.T) {
@@ -65,6 +66,10 @@ func TestGetgt(t *testing.T) {
 		case "arm":
 			fallthrough
 		case "arm64":
+			fallthrough
+		case "ppc64":
+			fallthrough
+		case "s390x":
 			assert.Equal(t, numField, tt.NumField())
 			assert.Equal(t, offsetGoid, offset(tt, "goid"))
 			assert.Equal(t, offsetPaniconfault, offset(tt, "paniconfault"))
