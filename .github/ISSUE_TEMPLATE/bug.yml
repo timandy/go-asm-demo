@@ -40,7 +40,7 @@ body:
         var tls = routine.NewThreadLocal()
 
         func init() {
-            tls.Set("Hello world")
+            tls.Set("Hello World")
         }
 
         func main() {
@@ -54,6 +54,8 @@ body:
     attributes:
       label: Expected Behavior
       description: A concise description of what you expected to happen.
+      placeholder: |
+        The console prints `Hello World`
     validations:
       required: true
 
@@ -61,6 +63,8 @@ body:
     attributes:
       label: Current Behavior
       description: A concise description of what you're experiencing.
+      placeholder: |
+        The console prints nothing
     validations:
       required: true
 
@@ -68,6 +72,8 @@ body:
     attributes:
       label: Environment
       description: What version of Go are you using (`go version`)?
+      placeholder: |
+        `go version go1.18.3 windows/amd64`
     validations:
       required: true
 
