@@ -1,9 +1,10 @@
 package routine
 
 import (
-	"github.com/stretchr/testify/assert"
 	"runtime"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCaptureStackTrace(t *testing.T) {

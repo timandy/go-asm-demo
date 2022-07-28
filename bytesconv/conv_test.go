@@ -1,10 +1,11 @@
 package bytesconv
 
 import (
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
 	"unsafe"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func getBytesDataPointer(value []byte) unsafe.Pointer {

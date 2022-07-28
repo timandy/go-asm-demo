@@ -2,9 +2,10 @@ package routine
 
 import (
 	"errors"
-	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestRuntimeError_Goid(t *testing.T) {

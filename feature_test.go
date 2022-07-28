@@ -1,10 +1,11 @@
 package routine
 
 import (
-	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestFuture_Complete(t *testing.T) {
