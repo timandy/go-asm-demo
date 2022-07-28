@@ -39,8 +39,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/timandy/routine"
 	"time"
+
+	"github.com/timandy/routine"
 )
 
 func main() {
@@ -72,8 +73,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/timandy/routine"
 	"time"
+
+	"github.com/timandy/routine"
 )
 
 var threadLocal = routine.NewThreadLocal()
@@ -121,7 +123,7 @@ inheritableThreadLocal in goroutine by Go: Hello world2
 
 获取当前`goroutine`的`goid`。
 
-在`386`、`amd64`、`armv6`、`armv7`、`arm64`架构下通过汇编代码直接获取，此操作性能极高，耗时通常只相当于`rand.Int()`的五分之一。
+在`386`、`amd64`、`armv6`、`armv7`、`arm64`、`ppc64`、`s390x`架构下通过汇编代码直接获取，此操作性能极高，耗时通常只相当于`rand.Int()`的五分之一。
 
 ## `NewThreadLocal() ThreadLocal`
 
@@ -139,17 +141,17 @@ inheritableThreadLocal in goroutine by Go: Hello world2
 
 创建一个新的`ThreadLocal`实例，其存储的默认值会通过调用`supplier()`生成。当通过`Go()`、`GoWait()`或`GoWaitResult()`启动新协程时，当前协程的值会被复制到新协程。
 
-## `Go(fun func())`
+## `Go(fun Runnable)`
 
 启动一个新的协程，同时自动将当前协程的全部上下文`inheritableThreadLocals`数据复制至新协程。子协程执行时的任何`panic`都会被捕获并自动打印堆栈。
 
-## `GoWait(fun func()) Feature`
+## `GoWait(fun CancelRunnable) Future`
 
-启动一个新的协程，同时自动将当前协程的全部上下文`inheritableThreadLocals`数据复制至新协程。可以通过返回值的`Feature.Get()`方法等待子协程执行完毕。子协程执行时的任何`panic`都会被捕获并在调用`Feature.Get()`时再次抛出。
+启动一个新的协程，同时自动将当前协程的全部上下文`inheritableThreadLocals`数据复制至新协程。可以通过返回值的`Future.Get()`或`Future.GetWithTimeout()`方法等待子协程执行完毕。子协程执行时的任何`panic`都会被捕获并在调用`Future.Get()`或`Future.GetWithTimeout()`时再次抛出。
 
-## `GoWaitResult(fun func() Any) Feature`
+## `GoWaitResult(fun CancelCallable) Future`
 
-启动一个新的协程，同时自动将当前协程的全部上下文`inheritableThreadLocals`数据复制至新协程。可以通过返回值的`Feature.Get()`方法等待子协程执行完毕并获取返回值。子协程执行时的任何`panic`都会被捕获并在调用`Feature.Get()`时再次抛出。
+启动一个新的协程，同时自动将当前协程的全部上下文`inheritableThreadLocals`数据复制至新协程。可以通过返回值的`Future.Get()`或`Future.GetWithTimeout()`方法等待子协程执行完毕并获取返回值。子协程执行时的任何`panic`都会被捕获并在调用`Future.Get()`或`Future.GetWithTimeout()`时再次抛出。
 
 [更多API文档](https://pkg.go.dev/github.com/timandy/routine#section-documentation)
 

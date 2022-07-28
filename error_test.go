@@ -12,22 +12,22 @@ func TestRuntimeError_Goid(t *testing.T) {
 	goid := Goid()
 	err := NewRuntimeError(nil)
 	assert.Equal(t, goid, err.Goid())
-	fea := GoWait(func() {
+	fut := GoWait(func(token CancelToken) {
 		assert.Equal(t, goid, err.Goid())
 		assert.NotEqual(t, Goid(), err.Goid())
 	})
-	fea.Get()
+	fut.Get()
 }
 
 func TestRuntimeError_Gopc(t *testing.T) {
 	gopc := *getg().gopc
 	err := NewRuntimeError(nil)
 	assert.Equal(t, gopc, err.Gopc())
-	fea := GoWait(func() {
+	fut := GoWait(func(token CancelToken) {
 		assert.Equal(t, gopc, err.Gopc())
 		assert.NotEqual(t, *getg().gopc, err.Gopc())
 	})
-	fea.Get()
+	fut.Get()
 }
 
 func TestRuntimeError_Message(t *testing.T) {
@@ -74,7 +74,7 @@ func TestRuntimeError_Error_EmptyMessage_NilError(t *testing.T) {
 	//
 	line = lines[1]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestRuntimeError_Error_EmptyMessage_NilError() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:67"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:68"))
 	//
 	line = lines[2]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -100,7 +100,7 @@ func TestRuntimeError_Error_EmptyMessage_NormalError(t *testing.T) {
 	//
 	line = lines[2]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestRuntimeError_Error_EmptyMessage_NormalError() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:89"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:90"))
 	//
 	line = lines[3]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -110,7 +110,7 @@ func TestRuntimeError_Error_EmptyMessage_NormalError(t *testing.T) {
 	//
 	line = lines[5]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestRuntimeError_Error_EmptyMessage_NormalError() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:90"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:91"))
 	//
 	line = lines[6]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -132,7 +132,7 @@ func TestRuntimeError_Error_NormalMessage_NilError(t *testing.T) {
 	//
 	line = lines[1]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestRuntimeError_Error_NormalMessage_NilError() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:125"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:126"))
 	//
 	line = lines[2]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -158,7 +158,7 @@ func TestRuntimeError_Error_NormalMessage_NormalError(t *testing.T) {
 	//
 	line = lines[2]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestRuntimeError_Error_NormalMessage_NormalError() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:147"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:148"))
 	//
 	line = lines[3]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -168,7 +168,7 @@ func TestRuntimeError_Error_NormalMessage_NormalError(t *testing.T) {
 	//
 	line = lines[5]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestRuntimeError_Error_NormalMessage_NormalError() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:148"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:149"))
 	//
 	line = lines[6]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -215,7 +215,7 @@ func TestRuntimeError_Error_MainGoid(t *testing.T) {
 	//
 	line = lines[1]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestRuntimeError_Error_MainGoid() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:207"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:208"))
 	//
 	line = lines[2]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -232,7 +232,7 @@ func TestRuntimeError_Error_ZeroGopc(t *testing.T) {
 	//
 	line = lines[1]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestRuntimeError_Error_ZeroGopc() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:224"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:225"))
 	//
 	line = lines[2]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -242,22 +242,22 @@ func TestArgumentNilError_Goid(t *testing.T) {
 	goid := Goid()
 	err := NewArgumentNilError("number", nil)
 	assert.Equal(t, goid, err.Goid())
-	fea := GoWait(func() {
+	fut := GoWait(func(token CancelToken) {
 		assert.Equal(t, goid, err.Goid())
 		assert.NotEqual(t, Goid(), err.Goid())
 	})
-	fea.Get()
+	fut.Get()
 }
 
 func TestArgumentNilError_Gopc(t *testing.T) {
 	gopc := *getg().gopc
 	err := NewArgumentNilError("number", nil)
 	assert.Equal(t, gopc, err.Gopc())
-	fea := GoWait(func() {
+	fut := GoWait(func(token CancelToken) {
 		assert.Equal(t, gopc, err.Gopc())
 		assert.NotEqual(t, *getg().gopc, err.Gopc())
 	})
-	fea.Get()
+	fut.Get()
 }
 
 func TestArgumentNilError_Message(t *testing.T) {
@@ -314,7 +314,7 @@ func TestArgumentNilError_Error(t *testing.T) {
 	//
 	line = lines[3]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestArgumentNilError_Error() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:300"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:301"))
 	//
 	line = lines[4]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -324,7 +324,7 @@ func TestArgumentNilError_Error(t *testing.T) {
 	//
 	line = lines[6]
 	assert.True(t, strings.HasPrefix(line, "   at github.com/timandy/routine.TestArgumentNilError_Error() in "))
-	assert.True(t, strings.HasSuffix(line, "error_test.go:301"))
+	assert.True(t, strings.HasSuffix(line, "error_test.go:302"))
 	//
 	line = lines[7]
 	assert.True(t, strings.HasPrefix(line, "   at testing.tRunner() in "))
@@ -393,7 +393,7 @@ func (ae *ArgumentNilError) ParamName() string {
 	return ae.paramName
 }
 
-func NewArgumentNilError(paramName string, cause Any) *ArgumentNilError {
+func NewArgumentNilError(paramName string, cause any) *ArgumentNilError {
 	goid, gopc, msg, stackTrace, innerErr := runtimeErrorNew(cause)
 	return &ArgumentNilError{goid: goid, gopc: gopc, message: msg, paramName: paramName, stackTrace: stackTrace, cause: innerErr}
 }
