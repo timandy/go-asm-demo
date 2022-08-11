@@ -1,6 +1,6 @@
 # Workflow file of GitHub Actions
 
-name: build
+name: Build
 
 on:
   push:
@@ -14,14 +14,29 @@ on:
       - release/**
 
 jobs:
-  build:
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout scm
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v3
+
+  Build:
+    needs: Lint
     runs-on: ${{ matrix.osv }}
     strategy:
       fail-fast: false
       matrix:
         os: [ darwin, linux, windows, freebsd ]
         arch: [ 386, amd64, armv6, armv7, arm64, ppc64, s390x ]
-        go: [ 1.13, 1.14, 1.15, 1.16, 1.17, 1.18 ]
+        go: [ 1.19 ]
         exclude:
           # darwin excludes
           - os: darwin
