@@ -2,6 +2,7 @@
 
 [![Build Status](https://github.com/timandy/routine/actions/workflows/build.yml/badge.svg)](https://github.com/timandy/routine/actions)
 [![Codecov](https://codecov.io/gh/timandy/routine/branch/main/graph/badge.svg)](https://app.codecov.io/gh/timandy/routine)
+[![Go Report Card](https://goreportcard.com/badge/github.com/timandy/routine)](https://goreportcard.com/report/github.com/timandy/routine)
 [![Documentation](https://pkg.go.dev/badge/github.com/timandy/routine.svg)](https://pkg.go.dev/github.com/timandy/routine)
 [![Release](https://img.shields.io/github/release/timandy/routine.svg)](https://github.com/timandy/routine/releases)
 [![License](https://img.shields.io/github/license/timandy/routine.svg)](https://github.com/timandy/routine/blob/main/LICENSE)
@@ -169,16 +170,24 @@ inheritableThreadLocal in goroutine by Go: Hello world2
 
 # 支持网格
 
-|             | **`darwin`** | **`linux`** | **`windows`** | **`freebsd`** |             |
-|------------:|:------------:|:-----------:|:-------------:|:-------------:|:------------|
-|   **`386`** |              |      ✅      |       ✅       |       ✅       | **`386`**   |
-| **`amd64`** |      ✅       |      ✅      |       ✅       |       ✅       | **`amd64`** |
-| **`armv6`** |              |      ✅      |               |               | **`armv6`** |
-| **`armv7`** |              |      ✅      |               |               | **`armv7`** |
-| **`arm64`** |      ✅       |      ✅      |               |               | **`arm64`** |
-| **`ppc64`** |              |      ✅      |               |               | **`ppc64`** |
-| **`s390x`** |              |      ✅      |               |               | **`s390x`** |
-|             | **`darwin`** | **`linux`** | **`windows`** | **`freebsd`** |             |
+|                | **`darwin`** | **`linux`** | **`windows`** | **`freebsd`** | **`js`** |                |
+|---------------:|:------------:|:-----------:|:-------------:|:-------------:|----------|:---------------|
+|      **`386`** |              |      ✅      |       ✅       |       ✅       |          | **`386`**      |
+|    **`amd64`** |      ✅       |      ✅      |       ✅       |       ✅       |          | **`amd64`**    |
+|    **`armv6`** |              |      ✅      |               |               |          | **`armv6`**    |
+|    **`armv7`** |              |      ✅      |               |               |          | **`armv7`**    |
+|    **`arm64`** |      ✅       |      ✅      |               |               |          | **`arm64`**    |
+|  **`loong64`** |              |      ✅      |               |               |          | **`loong64`**  |
+|     **`mips`** |              |      ✅      |               |               |          | **`mips`**     |
+|   **`mipsle`** |              |      ✅      |               |               |          | **`mipsle`**   |
+|   **`mips64`** |              |      ✅      |               |               |          | **`mips64`**   |
+| **`mips64le`** |              |      ✅      |               |               |          | **`mips64le`** |
+|    **`ppc64`** |              |      ✅      |               |               |          | **`ppc64`**    |
+|  **`ppc64le`** |              |      ✅      |               |               |          | **`ppc64le`**  |
+|  **`riscv64`** |              |      ✅      |               |               |          | **`riscv64`**  |
+|    **`s390x`** |              |      ✅      |               |               |          | **`s390x`**    |
+|     **`wasm`** |              |             |               |               | ✅        | **`wasm`**     |
+|                | **`darwin`** | **`linux`** | **`windows`** | **`freebsd`** | **`js`** |                |
 
 ✅：支持
 
