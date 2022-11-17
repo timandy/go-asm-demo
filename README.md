@@ -124,7 +124,7 @@ This chapter introduces in detail all the interfaces encapsulated by the `routin
 
 Get the `goid` of the current `goroutine`.
 
-It can be obtained directly through assembly code under `386`, `amd64`, `armv6`, `armv7`, `arm64`, `ppc64`, `s390x` architectures. This operation has extremely high performance and the time-consuming is usually only one-fifth of `rand.Int()`.
+It can be obtained directly through assembly code under `386`, `amd64`, `armv6`, `armv7`, `arm64`, `loong64`, `mips`, `mipsle`, `mips64`, `mips64le`, `ppc64`, `ppc64le`, `riscv64`, `s390x`, `wasm` architectures. This operation has extremely high performance and the time-consuming is usually only one-fifth of `rand.Int()`.
 
 ## `NewThreadLocal() ThreadLocal`
 
@@ -171,7 +171,7 @@ If the data stored in `thread` is not additionally referenced, these data will b
 # Support Grid
 
 |                | **`darwin`** | **`linux`** | **`windows`** | **`freebsd`** | **`js`** |                |
-|---------------:|:------------:|:-----------:|:-------------:|:-------------:|----------|:---------------|
+|---------------:|:------------:|:-----------:|:-------------:|:-------------:|:--------:|:---------------|
 |      **`386`** |              |      ✅      |       ✅       |       ✅       |          | **`386`**      |
 |    **`amd64`** |      ✅       |      ✅      |       ✅       |       ✅       |          | **`amd64`**    |
 |    **`armv6`** |              |      ✅      |               |               |          | **`armv6`**    |
@@ -186,7 +186,7 @@ If the data stored in `thread` is not additionally referenced, these data will b
 |  **`ppc64le`** |              |      ✅      |               |               |          | **`ppc64le`**  |
 |  **`riscv64`** |              |      ✅      |               |               |          | **`riscv64`**  |
 |    **`s390x`** |              |      ✅      |               |               |          | **`s390x`**    |
-|     **`wasm`** |              |             |               |               | ✅        | **`wasm`**     |
+|     **`wasm`** |              |             |               |               |    ✅     | **`wasm`**     |
 |                | **`darwin`** | **`linux`** | **`windows`** | **`freebsd`** | **`js`** |                |
 
 ✅: Supported

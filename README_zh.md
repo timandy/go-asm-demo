@@ -124,7 +124,7 @@ inheritableThreadLocal in goroutine by Go: Hello world2
 
 获取当前`goroutine`的`goid`。
 
-在`386`、`amd64`、`armv6`、`armv7`、`arm64`、`ppc64`、`s390x`架构下通过汇编代码直接获取，此操作性能极高，耗时通常只相当于`rand.Int()`的五分之一。
+在`386`、`amd64`、`armv6`、`armv7`、`arm64`、`loong64`、`mips`、`mipsle`、`mips64`、`mips64le`、`ppc64`、`ppc64le`、`riscv64`、`s390x`、`wasm`架构下通过汇编代码直接获取，此操作性能极高，耗时通常只相当于`rand.Int()`的五分之一。
 
 ## `NewThreadLocal() ThreadLocal`
 
@@ -171,7 +171,7 @@ inheritableThreadLocal in goroutine by Go: Hello world2
 # 支持网格
 
 |                | **`darwin`** | **`linux`** | **`windows`** | **`freebsd`** | **`js`** |                |
-|---------------:|:------------:|:-----------:|:-------------:|:-------------:|----------|:---------------|
+|---------------:|:------------:|:-----------:|:-------------:|:-------------:|:--------:|:---------------|
 |      **`386`** |              |      ✅      |       ✅       |       ✅       |          | **`386`**      |
 |    **`amd64`** |      ✅       |      ✅      |       ✅       |       ✅       |          | **`amd64`**    |
 |    **`armv6`** |              |      ✅      |               |               |          | **`armv6`**    |
@@ -186,7 +186,7 @@ inheritableThreadLocal in goroutine by Go: Hello world2
 |  **`ppc64le`** |              |      ✅      |               |               |          | **`ppc64le`**  |
 |  **`riscv64`** |              |      ✅      |               |               |          | **`riscv64`**  |
 |    **`s390x`** |              |      ✅      |               |               |          | **`s390x`**    |
-|     **`wasm`** |              |             |               |               | ✅        | **`wasm`**     |
+|     **`wasm`** |              |             |               |               |    ✅     | **`wasm`**     |
 |                | **`darwin`** | **`linux`** | **`windows`** | **`freebsd`** | **`js`** |                |
 
 ✅：支持
