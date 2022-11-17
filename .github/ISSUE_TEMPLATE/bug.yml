@@ -33,18 +33,10 @@ body:
 
         import (
             "fmt"
-
-            "github.com/timandy/routine"
         )
 
-        var tls = routine.NewThreadLocal()
-
-        func init() {
-            tls.Set("Hello World")
-        }
-
         func main() {
-            fmt.Println(tls.Get())
+            fmt.Println("Hello World")
         }
         ```
     validations:
