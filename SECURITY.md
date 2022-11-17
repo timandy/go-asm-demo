@@ -12,7 +12,7 @@ At the moment, only the latest commit on the `main` branch will be supported for
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-If you found a security vulnerability in this lib, please send a mail to [Tim Andy](mailto:xuchonglei@126.com).
+If you found a security vulnerability in the current repository, please send a mail to [Tim Andy](mailto:xuchonglei@126.com).
 You should get a reply within *72 hours* that we have received your report and a tentative [CVSS](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator) score.
 We will do a preliminary analysis to confirm that the vulnerability is a plausible claim and decline the report otherwise.
 
