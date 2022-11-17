@@ -330,7 +330,7 @@ jobs:
           GOOS: ${{ matrix.os }}
           GOARCH: ${{ matrix.arch }}
         run: |
-          PATH=$PATH:`go env | grep GOROOT | awk -F '=' '{print $2}' | awk -F '"' '{print $2}'`/misc/wasm
+          PATH=$PATH:$(go env | grep GOROOT | awk -F '=' '{print $2}' | awk -F '"' '{print $2}')/misc/wasm
           go test -v -coverprofile="coverage.txt" -covermode=atomic ./...
 
       - name: Codecov
