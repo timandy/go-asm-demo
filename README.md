@@ -193,7 +193,7 @@ If the data stored in `thread` is not additionally referenced, these data will b
 
 # Thanks
 
-`routine` is forked from [go-eden/routine](https://github.com/go-eden/routine), thanks to the original author for his contribution!
+Thanks to all [contributors](https://github.com/timandy/routine/graphs/contributors) for their contributions!
 
 # *License*
 

@@ -193,7 +193,7 @@ inheritableThreadLocal in goroutine by Go: Hello world2
 
 # 鸣谢
 
-`routine`是从 [go-eden/routine](https://github.com/go-eden/routine) 分支出来的，感谢原作者的贡献！
+感谢所有[贡献者](https://github.com/timandy/routine/graphs/contributors)的贡献！
 
 # *许可证*
 
